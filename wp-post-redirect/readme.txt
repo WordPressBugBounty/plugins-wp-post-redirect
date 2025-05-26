@@ -1,56 +1,96 @@
 ﻿=== WP Post Redirect ===
 Contributors: Milmor
 Donate link: https://www.paypal.me/milesimarco
-Tags: seo, redirect, redirection, url, change
+Tags: seo, redirect, redirection, url, change, external link
 Requires at least: 3.8
-Tested up to: 6.3
-Version: 1.5.1
-Stable tag: 1.5.1
+Tested up to: 6.9
+Requires PHP: 5.6
+Version: 2.0.0
+Stable tag: 2.0.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Redirect your posts to an external link by adding the url into a new metabox. Simply and efficient!
+Easily redirect your WordPress posts to any external URL with a simple metabox. Lightweight, efficient, and perfect for SEO!
 
 == Description ==
-With WP Post Redirect you can make a redirect when accessing your posts and point to an external link.
-When activated, you will see a new metabox in the "New Post" screen, that allows you to set a new url where the user should be redirected. Simply and efficient!
+
+WP Post Redirect allows you to seamlessly redirect individual posts to external URLs. Once activated, a new metabox appears on the post edit screen, letting you specify a custom redirect URL for each post. Great for affiliate links, content curation, or moving content.
+
+**Features:**
+* Add a redirect URL to any post via a simple metabox.
+* Highlight posts with active redirections in the admin area.
+* Dashboard options page to manage all redirections.
+* Backend column to mark posts with redirect enabled.
+* Lightweight and easy to use.
+* Fully compatible with the latest WordPress versions.
 
 == Installation ==
-1. Upload the entire folder to the '/wp-content/plugins/' directory
-2. Activate the plugin through the 'Plugins' menu in WordPress
-3. All done! Now in your 'New Post' screen there is a new metabox. Enjoy!
+
+1. Upload the entire `wp-post-redirect` folder to the `/wp-content/plugins/` directory.
+2. Activate the plugin through the 'Plugins' menu in WordPress.
+3. Edit any post and use the new "Redirect URL" metabox to set a redirect.
+4. Save your post. Visitors will be redirected to the specified URL.
+
+== Frequently Asked Questions ==
+
+= Where do I set the redirect URL? =
+On the post edit screen, look for the "Redirect URL" metabox.
+
+= Can I remove a redirect? =
+Yes, simply clear the URL in the metabox and update the post.
+
+= Does this affect SEO? =
+Redirects are handled with a 301 status for SEO best practices.
+
+== Screenshots ==
+
+1. The "Redirect URL" metabox on the post edit screen.
+2. Highlighted posts in the admin post list.
+3. Options dashboard for managing all redirections.
 
 == Changelog ==
 
-= 1.5.1 2024-05-24 =
-* WP 6.6 Compatibility check
-* [New] Posts with redirection set will now have the row highlighted in admin area
-* [New] Added options dashboard to check all redirections
-* Minor improvements
+= 2.0.0 – 2025-05-26 =
+* Major: You can now enable or disable the redirect metabox for any public custom post type (CPT) in the plugin settings. The "post" type is always enabled.
+* The redirect metabox, frontend redirect, and permalink filtering are now only active for enabled post types.
+* Added "Active Redirections" table and CSV export
+* Inactive redirections (for disabled CPTs) are grouped and displayed separately in the settings page.
+* Improved security and accessibility for the metabox and settings page.
+* Improved styling for the settings page and tables.
+* Code refactoring and object-oriented improvements.
 
-= 1.4.1 20230518 =
-* WP 6.2 compatibility check
-* [New] Added backend column to mark posts with redirect enabled
-* Fixed php warning on some configurations [Thanks to Andrea Smith]
+= 1.5.1 – 2024-05-24 =
+* WP 6.6 compatibility check.
+* [New] Highlight posts with redirection in admin area.
+* [New] Added options dashboard to manage all redirections.
+* Minor improvements.
 
-= 1.3.2 20220112 =
-* WP 5.9 compatibility check
+= 1.4.1 – 2023-05-18 =
+* WP 6.2 compatibility check.
+* [New] Backend column to mark posts with redirect enabled.
+* Fixed PHP warning on some configurations. [Thanks to Andrea Smith]
 
-= 1.3.1 20201124 =
-* WP 5.6 compatibility check
-* Minor improvements
+= 1.3.2 – 2022-01-12 =
+* WP 5.9 compatibility check.
 
-= 1.3 23/04/2018 =
-* Version and compatibility dump
+= 1.3.1 – 2020-11-24 =
+* WP 5.6 compatibility check.
+* Minor improvements.
 
-= 1.2 14/09/2015 =
-* Plugin reload
+= 1.3 – 2018-04-23 =
+* Version and compatibility update.
 
-= 1.1 13/07/2013 =
-* Repository Readme Fix
-* Added Presstrends I/O (modified version)
+= 1.2 – 2015-09-14 =
+* Plugin reload.
 
-= 1.0 12/07/2013 =
-* Launch
+= 1.1 – 2013-07-13 =
+* Repository readme fix.
+* Added Presstrends I/O (modified version).
 
-(!) = Important Update
+= 1.0 – 2013-07-12 =
+* Initial release.
+
+== Upgrade Notice ==
+
+= 2.0.0 =
+Major update with custom post type support and improved management features.
