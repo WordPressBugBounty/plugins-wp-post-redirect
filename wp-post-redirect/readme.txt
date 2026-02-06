@@ -5,8 +5,8 @@ Tags: seo, redirect, redirection, url, change, external link
 Requires at least: 3.8
 Tested up to: 6.9
 Requires PHP: 5.6
-Version: 2.0.0
-Stable tag: 2.0.0
+Version: 2.2
+Stable tag: 2.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -14,12 +14,15 @@ Easily redirect your WordPress posts to any external URL with a simple metabox. 
 
 == Description ==
 
-WP Post Redirect allows you to seamlessly redirect individual posts to external URLs. Once activated, a new metabox appears on the post edit screen, letting you specify a custom redirect URL for each post. Great for affiliate links, content curation, or moving content.
+WP Post Redirect allows you to seamlessly redirect individual posts to external URLs or internal content. Once activated, a new metabox appears on the post edit screen, letting you specify a custom redirect URL or search for an internal post/page. Great for affiliate links, content curation, or moving content.
 
 **Features:**
 * Add a redirect URL to any post via a simple metabox.
+* Search and select internal posts or pages for redirection.
+* Set custom HTTP Status codes (301, 307, 308) globally or per post.
+* Option to open redirects in a new tab and allow `rel="nofollow"`.
 * Highlight posts with active redirections in the admin area.
-* Dashboard options page to manage all redirections.
+* Dashboard options page to manage all redirections with CSV Export.
 * Backend column to mark posts with redirect enabled.
 * Lightweight and easy to use.
 * Fully compatible with the latest WordPress versions.
@@ -34,21 +37,29 @@ WP Post Redirect allows you to seamlessly redirect individual posts to external 
 == Frequently Asked Questions ==
 
 = Where do I set the redirect URL? =
-On the post edit screen, look for the "Redirect URL" metabox.
+On the post edit screen, look for the "Redirect" metabox. You can choose between "External URL" or "Internal Content".
 
 = Can I remove a redirect? =
-Yes, simply clear the URL in the metabox and update the post.
+Yes, simply switch to External and clear the URL, or remove the Internal selection, then update the post.
 
 = Does this affect SEO? =
-Redirects are handled with a 301 status for SEO best practices.
+By default, redirection is 301 (Moved Permanently), which is best for SEO. You can change this to 307 or 308 in the settings or per-post.
 
 == Screenshots ==
 
-1. The "Redirect URL" metabox on the post edit screen.
-2. Highlighted posts in the admin post list.
-3. Options dashboard for managing all redirections.
+1. Easily set the target URL in the Post Editor.
+2. Quickly identify redirected posts in your list.
+3. Manage and monitor all your links in one place.
 
 == Changelog ==
+
+= 2.2 - 2026-02-02 =
+* [New] Support for Internal Content Redirection (search posts/pages).
+* [New] Added options for "Open in new tab" and `rel="nofollow"`.
+* [New] Support for selectable HTTP Status Codes (301, 307, 308).
+* [Improvement] Unified metadata storage for better efficiency.
+* [Improvement] Enhanced Admin Dashboard with CSV Export support for new fields.
+* [Fix] Metabox UI state preservation when switching tabs.
 
 = 2.0.0 – 2025-05-26 =
 * Major: You can now enable or disable the redirect metabox for any public custom post type (CPT) in the plugin settings. The "post" type is always enabled.
