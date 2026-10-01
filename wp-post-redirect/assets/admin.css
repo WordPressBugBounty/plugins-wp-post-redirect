@@ -1,0 +1,28 @@
+/* WP Post Redirect - admin styles */
+
+/* Post list: highlight rows with an active redirect */
+.wp-list-table tr:has(.wppr-has-redirect) { background: rgb(255 255 0 / 30%); }
+
+/* Classic editor: room for the "Redirect:" line under the title */
+#titlediv:has(.wppr-permalink-redirect) { margin-bottom: 30px; }
+
+/* Metabox */
+.wppr-search-item { padding: 8px; cursor: pointer; border-bottom: 1px solid #eee; }
+.wppr-search-item:hover { background: #f0f0f0; }
+.edit-post-meta-boxes-area #wpr_redirect_url .inside { padding-bottom: 10px; }
+.wppr-url-warning { color: #b32d2e; margin-top: 0; }
+.wppr-metabox-content input[type="url"]:focus, .wppr-metabox-content input[type="text"]:focus {
+    border-color: #2271b1;
+    box-shadow: 0 0 0 1px #2271b1;
+}
+
+/* Settings page */
+.wppr-table th, .wppr-table td { padding: 12px 10px; vertical-align: middle; }
+.wppr-table tr:nth-child(even) { background: #f9f9f9; }
+.wppr-table th { background: #f1f1f1; font-weight: 600; }
+.wppr-table a { color: #2271b1; text-decoration: none; font-weight: 500; }
+.wppr-table a:hover { color: #135e96; text-decoration: underline; }
+.tag-post-type { background: #eee; padding: 2px 6px; border-radius: 3px; font-size: 11px; text-transform: uppercase; color: #666; }
+.dest-link { display: block; max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.dashicons-randomize { font-size: 32px; vertical-align: middle; }
+.wppr-table .dashicons { color: #666; }

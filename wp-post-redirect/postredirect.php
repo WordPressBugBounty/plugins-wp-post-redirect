@@ -2,12 +2,14 @@
 /*
 Plugin Name: WP Post Redirect
 Description: Redirect your posts to an external link by adding the url into a new metabox. Simple and efficient!
-Version: 2.2
+Version: 2.3
+Requires at least: 5.0
+Requires PHP: 7.4
 Text Domain: wp-post-redirect
 Author: Marco Milesi
-Author Email: milesimarco@outlook.com
-Author URI: http://www.marcomilesi.com
+Author URI: https://www.marcomilesi.com
 License: GPLv2 or later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
 */
 
 if ( ! defined( 'ABSPATH' ) ) exit;
@@ -16,6 +18,7 @@ if ( ! class_exists( 'WP_Post_Redirect' ) ) :
 
 class WP_Post_Redirect {
 
+    const VERSION = '2.3'; // Keep in sync with the plugin header (used to version admin assets)
     const PLUGIN_FILE = __FILE__;
     const META_KEY = '_prurl';
     const META_TARGET_BLANK = '_prurl_blank';
@@ -24,11 +27,21 @@ class WP_Post_Redirect {
     const OPTION_PAGE_SLUG = 'wp-redirect-option-page';
     const OPTION_HTTP_STATUS = 'wppr_http_status';
     const OPTION_CPTS = 'wppr_enabled_cpts';
+    const ALLOWED_HTTP_STATUSES = [ 301, 302, 307, 308 ];
+
+    /**
+     * True while resolving an internal target's permalink, so that
+     * filter_post_link() does not recurse into another redirect.
+     * @var bool
+     */
+    private $resolving_internal = false;
 
     public function __construct() {
         // Core Redirection
         add_action( 'template_redirect', [ $this, 'maybe_redirect' ], 1 );
         add_filter( 'post_link', [ $this, 'filter_post_link' ], 10, 2 );
+        add_filter( 'page_link', [ $this, 'filter_post_link' ], 10, 2 );
+        add_filter( 'post_type_link', [ $this, 'filter_post_link' ], 10, 2 );
 
         // Link attributes for Menus
         add_filter( 'nav_menu_link_attributes', [ $this, 'filter_nav_menu_link_attributes' ], 10, 2 );
@@ -58,16 +71,24 @@ class WP_Post_Redirect {
                 $link = $this->get_redirect_url( $id );
                 if ( $link ) {
                     $post_status = get_post_meta( $id, self::META_HTTP_STATUS, true );
-                    $status = $post_status ? absint( $post_status ) : get_option( self::OPTION_HTTP_STATUS, 301 );
-                    wp_redirect( $link, $status );
+                    $status = $post_status ? $post_status : get_option( self::OPTION_HTTP_STATUS, 301 );
+                    wp_redirect( $link, self::sanitize_http_status( $status ), 'WP Post Redirect' );
                     exit;
                 }
             }
         }
     }
 
+    /**
+     * Returns the status if allowed, otherwise the default (301).
+     */
+    public static function sanitize_http_status( $status ) {
+        $status = absint( $status );
+        return in_array( $status, self::ALLOWED_HTTP_STATUSES, true ) ? $status : 301;
+    }
+
     public function filter_post_link( $link, $postarg = null ) {
-        if ( is_admin() ) {
+        if ( is_admin() || $this->resolving_internal ) {
             return $link;
         }
         $id = 0;
@@ -89,26 +110,43 @@ class WP_Post_Redirect {
     }
 
     public function get_redirect_url( $id ) {
-        static $placeholders;
-        
-        $redirect = get_post_meta( absint( $id ), self::META_KEY, true );
+        $id = absint( $id );
+        $redirect = get_post_meta( $id, self::META_KEY, true );
         if ( ! $redirect ) {
             return false;
         }
 
         // Check if value is a numeric ID (Internal Content)
-        if ( is_numeric( $redirect ) && get_post_status( $redirect ) ) {
-            return get_permalink( $redirect );
+        if ( is_numeric( $redirect ) ) {
+            $target = absint( $redirect );
+            // A post redirecting to itself would loop forever
+            if ( $target === $id || ! get_post_status( $target ) ) {
+                return false;
+            }
+            // Use the target's real permalink, not its own redirect (avoids A -> B -> A recursion)
+            $this->resolving_internal = true;
+            $permalink = get_permalink( $target );
+            $this->resolving_internal = false;
+            return $permalink;
         }
 
         // Otherwise handle as External URL with placeholders
+        return $this->replace_placeholders( $redirect );
+    }
+
+    /**
+     * Replaces placeholders like %home% with their value. Placeholders stay stored
+     * as typed and are resolved only here, when the redirect is used.
+     */
+    public function replace_placeholders( $url ) {
+        static $placeholders;
         if ( ! isset( $placeholders ) ) {
             $placeholders = apply_filters( 'redirect_placeholders', [
                 '%home%' => get_home_url(),
                 '%site%' => get_site_url(),
             ] );
         }
-        return str_replace( array_keys( $placeholders ), array_values( $placeholders ), $redirect );
+        return str_replace( array_keys( $placeholders ), array_values( $placeholders ), $url );
     }
 
     public function filter_nav_menu_link_attributes( $atts, $item ) {

@@ -1,12 +1,12 @@
 ﻿=== WP Post Redirect ===
 Contributors: Milmor
 Donate link: https://www.paypal.me/milesimarco
-Tags: seo, redirect, redirection, url, change, external link
-Requires at least: 3.8
-Tested up to: 6.9
-Requires PHP: 5.6
-Version: 2.2
-Stable tag: 2.2
+Tags: redirect, redirection, seo, url, external link
+Requires at least: 5.0
+Tested up to: 7.2
+Requires PHP: 7.4
+Version: 2.3
+Stable tag: 2.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -52,6 +52,20 @@ By default, redirection is 301 (Moved Permanently), which is best for SEO. You c
 3. Manage and monitor all your links in one place.
 
 == Changelog ==
+
+= 2.3 - 2026-10-01 =
+* [Security] General security hardening.
+* [New] Links to redirected pages and custom post types now point directly to the destination (menus, archives, feeds), as they already did for posts.
+* [New] The "Redirect" column and row highlight are now shown for every enabled post type, not only posts.
+* [New] Redirects send the `X-Redirect-By: WP Post Redirect` header, to identify them easily when debugging.
+* [Improvement] Stricter checks on the destination URL.
+* [Improvement] The internal content search no longer lists the post being edited.
+* [Improvement] Admin scripts and styles moved to separate files, loaded only on the plugin's screens.
+* [Improvement] Updated plugin header information.
+* [Fix] A post redirecting to itself, or two posts redirecting to each other, no longer causes a fatal error.
+* [Fix] `%home%` and `%site%` placeholders are no longer altered when the post is saved again.
+* [Fix] Only valid HTTP status codes (301, 302, 307, 308) are accepted.
+* WP 7.2 compatibility check. Requires WordPress 5.0 and PHP 7.4.
 
 = 2.2 - 2026-02-02 =
 * [New] Support for Internal Content Redirection (search posts/pages).
@@ -102,6 +116,9 @@ By default, redirection is 301 (Moved Permanently), which is best for SEO. You c
 * Initial release.
 
 == Upgrade Notice ==
+
+= 2.3 =
+Security and stability fix. Update recommended.
 
 = 2.0.0 =
 Major update with custom post type support and improved management features.
